@@ -1,0 +1,29 @@
+{
+  "name": "Trender",
+  "version": "1.0.0",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "latest",
+    "mongoose": "^4.8.6",
+    "oauth": "latest"
+  },
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "./node_modules/jshint/bin/jshint test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rhythmless/Trender.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rhythmless/Trender/issues"
+  },
+  "homepage": "https://github.com/Rhythmless/Trender#readme",
+  "devDependencies": {
+    "jshint": "^2.9.4"
+  }
+}

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Trender</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.js"></script>
+	<!--<link rel="stylesheet" type="text/css" href="index.css">-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="Chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+
+	<!-- Include jQuery -->
+
+
+	<!-- Include Date Range Picker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"
+	/>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
+
+	<link rel="icon" href="https://lh4.ggpht.com/mKrnPRmtBinlSg_nDiqiSI7uPL7PpifQTu9FuSRawCzl9Abo17KXdOQfLPDG0gq5HrT3=w300">
+	<link rel="stylesheet" type="text/css" href="final.css">
+	<script type="text/javascript" src="date_time_functions.js"></script>
+</head>
+
+<body ng-app="tweetsList" ng-controller="TweetsController as qList" onload="defDate()">
+
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+	</div>
+
+	<div class="jumbotron">
+
+		<h1 class='text-center'>TRENDER</h1>
+		<p class='text-center'>Giving you the latest and most popular trends!</p>
+		<div id="myDiv" class="animate-bottom">
+			<nav class="navbar navbar-inverse ">
+
+				<div class="text-center">
+					<div class="container-fluid text-center">
+						<div class="nav navbar-nav" id="sandbox-container">
+							<label class="glyphicon glyphicon-calendar" for="date" id="datelabel">Date: </label>
+							<input type="text" class="glyphicon glyphicon-calendar text-center" id="date" placeholder="MM/DD/YYYY" onchange="setDate()">
+						</div>
+					</div>
+
+					<div id="trend-container" class="nav navbar-nav nav-center">
+						<div class="section group">
+							<button ng-click="showTweets(0)" class="col span_1_of_5 btn btn-info">
+							Trend: {{allPosts[0].trend}}<div># of tweets: {{allPosts[0].tweet_volume}}</div>
+							</button>
+							<button ng-click="showTweets(1)" class="col span_1_of_5 btn btn-info">
+							Trend: {{allPosts[1].trend}}<div># of tweets: {{allPosts[1].tweet_volume}}</div>
+							</button>
+							<button ng-click="showTweets(2)" class="col span_1_of_5 btn btn-info">
+							Trend: {{allPosts[2].trend}}<div># of tweets: {{allPosts[2].tweet_volume}}</div>
+							</button>
+							<button ng-click="showTweets(3)" class="col span_1_of_5 btn btn-info">
+							Trend: {{allPosts[3].trend}}<div># of tweets: {{allPosts[3].tweet_volume}}</div>
+							</button>
+							<button ng-click="showTweets(4)" class="col span_1_of_5 btn btn-info">
+							Trend: {{allPosts[4].trend}}<div># of tweets: {{allPosts[4].tweet_volume}}</div>
+							</button>
+						</div>
+					</div>
+				</div>
+
+			</nav>
+			<div>
+				<div class="cd-horizontal-timeline">
+					<div class="timeline">
+						<div class="text-center"><label class="glyphicon glyphicon-time text-center" id="time">Time</label></div>
+						<div class="events-wrapper">
+							<div class="events">
+								<ol>
+									<!-- THESE ARE BACKWARDS -->
+									<li><a href="#0" data-date="00:00" id="00:00" class="selected" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[0].trends[0].trend}} {{daytrends[0].trends[1].trend}} {{daytrends[0].trends[2].trend}} {{daytrends[0].trends[3].trend}} {{daytrends[0].trends[4].trend}}"
+										 tooltip-append-to-body="true">12:00 AM</a></li>
+									<li><a href="#0" data-date="01:00" id="01:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[1].trends[0].trend}} {{daytrends[1].trends[1].trend}} {{daytrends[1].trends[2].trend}} {{daytrends[1].trends[3].trend}} {{daytrends[1].trends[4].trend}}"
+										 tooltip-append-to-body="true">1:00 AM</a></li>
+									<li><a href="#0" data-date="02:00" id="02:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[2].trends[0].trend}} {{daytrends[2].trends[1].trend}} {{daytrends[2].trends[2].trend}} {{daytrends[2].trends[3].trend}} {{daytrends[2].trends[4].trend}}"
+										 tooltip-append-to-body="true">2:00 AM</a></li>
+									<li><a href="#0" data-date="03:00" id="03:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[3].trends[0].trend}} {{daytrends[3].trends[1].trend}} {{daytrends[3].trends[2].trend}} {{daytrends[3].trends[3].trend}} {{daytrends[3].trends[4].trend}}"
+										 tooltip-append-to-body="true">3:00 AM</a></li>
+									<li><a href="#0" data-date="04:00" id="04:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[4].trends[0].trend}} {{daytrends[4].trends[1].trend}} {{daytrends[4].trends[2].trend}} {{daytrends[4].trends[3].trend}} {{daytrends[4].trends[4].trend}}"
+										 tooltip-append-to-body="true">4:00 AM</a></li>
+									<li><a href="#0" data-date="05:00" id="05:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[5].trends[0].trend}} {{daytrends[5].trends[1].trend}} {{daytrends[5].trends[2].trend}} {{daytrends[5].trends[3].trend}} {{daytrends[5].trends[4].trend}}"
+										 tooltip-append-to-body="true">5:00 AM</a></li>
+									<li><a href="#0" data-date="06:00" id="06:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[6].trends[0].trend}} {{daytrends[6].trends[1].trend}} {{daytrends[6].trends[2].trend}} {{daytrends[6].trends[3].trend}} {{daytrends[6].trends[4].trend}}"
+										 tooltip-append-to-body="true">6:00 AM</a></li>
+									<li><a href="#0" data-date="07:00" id="07:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[7].trends[0].trend}} {{daytrends[7].trends[1].trend}} {{daytrends[7].trends[2].trend}} {{daytrends[7].trends[3].trend}} {{daytrends[7].trends[4].trend}}"
+										 tooltip-append-to-body="true">7:00 AM</a></li>
+									<li><a href="#0" data-date="08:00" id="08:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[8].trends[0].trend}} {{daytrends[8].trends[1].trend}} {{daytrends[8].trends[2].trend}} {{daytrends[8].trends[3].trend}} {{daytrends[8].trends[4].trend}}"
+										 tooltip-append-to-body="true">8:00 AM</a></li>
+									<li><a href="#0" data-date="09:00" id="09:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[9].trends[0].trend}} {{daytrends[9].trends[1].trend}} {{daytrends[9].trends[2].trend}} {{daytrends[9].trends[3].trend}} {{daytrends[9].trends[4].trend}}"
+										 tooltip-append-to-body="true">9:00 AM</a></li>
+									<li><a href="#0" data-date="10:00" id="10:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[10].trends[0].trend}} {{daytrends[10].trends[1].trend}} {{daytrends[10].trends[2].trend}} {{daytrends[10].trends[3].trend}} {{daytrends[10].trends[4].trend}}"
+										 tooltip-append-to-body="true">10:00 AM</a></li>
+									<li><a href="#0" data-date="11:00" id="11:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[11].trends[0].trend}} {{daytrends[11].trends[1].trend}} {{daytrends[11].trends[2].trend}} {{daytrends[11].trends[3].trend}} {{daytrends[11].trends[4].trend}}"
+										 tooltip-append-to-body="true">11:00 AM</a></li>
+									<li><a href="#0" data-date="12:00" id="12:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[12].trends[0].trend}} {{daytrends[12].trends[1].trend}} {{daytrends[12].trends[2].trend}} {{daytrends[12].trends[3].trend}} {{daytrends[12].trends[4].trend}}"
+										 tooltip-append-to-body="true">12:00 PM</a></li>
+									<li><a href="#0" data-date="13:00" id="13:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[13].trends[0].trend}} {{daytrends[13].trends[1].trend}} {{daytrends[13].trends[2].trend}} {{daytrends[13].trends[3].trend}} {{daytrends[13].trends[4].trend}}"
+										 tooltip-append-to-body="true">1:00 PM</a></li>
+									<li><a href="#0" data-date="14:00" id="14:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[14].trends[0].trend}} {{daytrends[14].trends[1].trend}} {{daytrends[14].trends[2].trend}} {{daytrends[14].trends[3].trend}} {{daytrends[14].trends[4].trend}}"
+										 tooltip-append-to-body="true">2:00 PM</a></li>
+									<li><a href="#0" data-date="15:00" id="15:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[15].trends[0].trend}} {{daytrends[15].trends[1].trend}} {{daytrends[15].trends[2].trend}} {{daytrends[15].trends[3].trend}} {{daytrends[15].trends[4].trend}}"
+										 tooltip-append-to-body="true">3:00 PM</a></li>
+									<li><a href="#0" data-date="16:00" id="16:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[16].trends[0].trend}} {{daytrends[16].trends[1].trend}} {{daytrends[16].trends[2].trend}} {{daytrends[16].trends[3].trend}} {{daytrends[16].trends[4].trend}}"
+										 tooltip-append-to-body="true">4:00 PM</a></li>
+									<li><a href="#0" data-date="17:00" id="17:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[17].trends[0].trend}} {{daytrends[17].trends[1].trend}} {{daytrends[17].trends[2].trend}} {{daytrends[17].trends[3].trend}} {{daytrends[17].trends[4].trend}}"
+										 tooltip-append-to-body="true">5:00 PM</a></li>
+									<li><a href="#0" data-date="18:00" id="18:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[18].trends[0].trend}} {{daytrends[18].trends[1].trend}} {{daytrends[18].trends[2].trend}} {{daytrends[18].trends[3].trend}} {{daytrends[18].trends[4].trend}}"
+										 tooltip-append-to-body="true">6:00 PM</a></li>
+									<li><a href="#0" data-date="19:00" id="19:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[19].trends[0].trend}} {{daytrends[19].trends[1].trend}} {{daytrends[19].trends[2].trend}} {{daytrends[19].trends[3].trend}} {{daytrends[19].trends[4].trend}}"
+										 tooltip-append-to-body="true">7:00 PM</a></li>
+									<li><a href="#0" data-date="20:00" id="20:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[20].trends[0].trend}} {{daytrends[20].trends[1].trend}} {{daytrends[20].trends[2].trend}} {{daytrends[20].trends[3].trend}} {{daytrends[20].trends[4].trend}}"
+										 tooltip-append-to-body="true">8:00 PM</a></li>
+									<li><a href="#0" data-date="21:00" id="21:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[21].trends[0].trend}} {{daytrends[21].trends[1].trend}} {{daytrends[21].trends[2].trend}} {{daytrends[21].trends[3].trend}} {{daytrends[21].trends[4].trend}}"
+										 tooltip-append-to-body="true">9:00 PM</a></li>
+									<li><a href="#0" data-date="22:00" id="22:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[22].trends[0].trend}} {{daytrends[22].trends[1].trend}} {{daytrends[22].trends[2].trend}} {{daytrends[22].trends[3].trend}} {{daytrends[22].trends[4].trend}}"
+										 tooltip-append-to-body="true">10:00 PM</a></li>
+									<li><a href="#0" data-date="23:00" id="23:00" onclick="setTime(event)" tooltip-placement="top" uib-tooltip="{{daytrends[23].trends[0].trend}} {{daytrends[23].trends[1].trend}} {{daytrends[23].trends[2].trend}} {{daytrends[23].trends[3].trend}} {{daytrends[23].trends[4].trend}}"
+										 tooltip-append-to-body="true">11:00 PM</a></li>
+								</ol>
+								<span class="filling-line" aria-hidden="true"></span>
+							</div>
+							<!-- .events -->
+						</div>
+						<!-- .events-wrapper -->
+						<ul class="cd-timeline-navigation">
+							<li><a href="#0" class="prev inactive">Prev</a></li>
+							<li><a href="#0" class="next">Next</a></li>
+						</ul>
+						<!-- .cd-timeline-navigation -->
+					</div>
+					<!-- .timeline -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Another basic version of how a tweet will be displayed. -->
+	<!-- <h1 class="text-center">Tweets</h1> -->
+
+	<div class="container text-center" id="chart-container">
+		<canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="option"
+		 chart-dataset-override="datasetOverride" chart-click="onClick">
+		</canvas>
+	</div>
+
+
+
+	<div class="container text-center">
+		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#search_collapse">Search Options!</button>
+		<div id="search_collapse" class="collapse">
+			<input type="text" class="form-control" id="searchQ">
+			<button ng-click="getSearch()">Search</button>
+			<div ng-repeat="result in searchResults">
+				<p>Trend:{{result.trend}} Date:{{result.date|date:'medium'}}</p>
+			</div>
+		</div>
+	</div>
+	<br>
+
+
+	<div class="container text-center">
+		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tweets_collapse">Load Context!</button>
+		<div id="tweets_collapse" class="collapse">
+			<div class="fluid-container">
+				<div class="row tweet-holder">
+					<div width='100%'>
+						<div class="right">
+							<div>
+								<!-- id="sup"; style="overflow: scroll;height: 700px;"-->
+								<div ng-repeat="info in tweets">
+									<div class="tweet-container">
+										<div class="tweet">
+											<section class="col-sm-4">
+												<div class="panel panel-default">
+													<div class="panel-body" style="height:140px;">
+														<p id="text">{{info.text}} </p>
+													</div>
+
+													<div class="panel-footer" style="height:80px;">
+														<a ng-href="http://twitter.com/anyuser/status/{{info.id_str}}">
+															<p id="info"> by <span id="screenname"> {{info.user.screen_name}} </span> (<span id="name">@{{info.user.name}}</span>) at
+																<span id="tweettime">{{info.created_at.replace('+0000 ', '')}}</span></p>
+														</a>
+													</div>
+												</div>
+											</section>
+										</div>
+									</div>
+								</div>
+								<span class="scroll-height"></span>
+								<span class="scroll-pos"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="scroll-to-bottom text-center">
+		<h1 class="bottom-text">Scroll Further To Go To Previous Hour!</h1>
+
+	</div>
+	<script src="./index.js"></script>
+	<script src="./proj.js"></script>
+</body>
+
+</html>

@@ -1,2 +1,2 @@
-# Twitter-Timeline
-CPS630 Project
+# Twitter-Timeline called Trender
+This web application was made as the project of CPS630 
